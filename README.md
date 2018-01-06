@@ -1,3 +1,3 @@
 # Spring Login GUI
 
-[Test Video](.github/test.gif)
+![Test Video](.github/test.gif)
