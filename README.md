@@ -8,5 +8,5 @@ I created this project, because I was sick of how Swing GUIs typically look. In 
 **Screenshot:**
 ![Screenshot](.github/screenshot.png)
 
-**Video:**
+**Event Handler Video:**
 ![Test Video](.github/test.gif)
