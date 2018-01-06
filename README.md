@@ -4,5 +4,9 @@ I created this project, because I was sick of how Swing GUIs typically look. In 
 
 **Note:** If an NPE is thrown when you first run this project, your IDE probably doesn't recognize your `resources` directory as a resources directory.
 
-## Example:
+## Examples:
+**Screenshot:**
+![Screenshot](.github/screenshot.png)
+
+**Video:**
 ![Test Video](.github/test.gif)
