@@ -1,6 +1,5 @@
-import Utils.TextFieldPassword;
-import Utils.UIUtils;
-import Utils.TextFieldUsername;
+import Toaster.Toaster;
+import Utils.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,6 +7,8 @@ import java.util.Objects;
 import javax.swing.*;
 
 public class LoginUI extends JFrame {
+
+    private final Toaster toaster;
 
     public static void main(String[] args) {
         new LoginUI();
@@ -28,6 +29,8 @@ public class LoginUI extends JFrame {
 
         addForgotPasswordButton(mainJPanel);
 
+        addRegisterButton(mainJPanel);
+
         this.add(mainJPanel);
         this.pack();
         this.setVisible(true);
@@ -35,13 +38,18 @@ public class LoginUI extends JFrame {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
+
+        toaster = new Toaster(mainJPanel);
     }
 
     private JPanel getMainJPanel() {
         this.setUndecorated(true);
 
+        Dimension size = new Dimension(800, 400);
+
         JPanel panel1 = new JPanel();
-        panel1.setPreferredSize(new Dimension(800, 400));
+        panel1.setSize(size);
+        panel1.setPreferredSize(size);
         panel1.setBackground(UIUtils.COLOR_BACKGROUND);
         panel1.setLayout(null);
 
@@ -174,8 +182,9 @@ public class LoginUI extends JFrame {
         };
 
         loginButton.addMouseListener(new MouseAdapter() {
+
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 loginEventHandler();
             }
 
@@ -201,33 +210,18 @@ public class LoginUI extends JFrame {
     }
 
     private void addForgotPasswordButton(JPanel panel1) {
-        JLabel forgotPassword = new JLabel(UIUtils.BUTTON_TEXT_FORGOT_PASS);
-        forgotPassword.setBounds(423, 301, 128, 16);
-        forgotPassword.setForeground(UIUtils.COLOR_OUTLINE);
-        forgotPassword.setFont(UIUtils.FONT_FORGOT_PASSWORD);
-        forgotPassword.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        panel1.add(new HyperlinkText(UIUtils.BUTTON_TEXT_FORGOT_PASS, 423, 300, () -> {
+            toaster.toast("Forgot password event");
+        }));
+    }
 
-        forgotPassword.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Forgot password event"); // TODO CHANGE THIS
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                forgotPassword.setForeground(UIUtils.COLOR_OUTLINE.darker());
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                forgotPassword.setForeground(UIUtils.COLOR_OUTLINE);
-            }
-        });
-
-        panel1.add(forgotPassword);
+    private void addRegisterButton(JPanel panel1) {
+        panel1.add(new HyperlinkText(UIUtils.BUTTON_TEXT_REGISTER, 631, 300, () -> {
+            toaster.toast("Register event");
+        }));
     }
 
     private void loginEventHandler() {
-        System.out.println("Login event"); // TODO CHANGE THIS
+        toaster.toast("Login event");
     }
 }
