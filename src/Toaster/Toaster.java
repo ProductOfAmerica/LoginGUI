@@ -27,7 +27,7 @@ public class Toaster {
         toasterCount++;
 
         new Thread(() -> {
-            panelToToastOn.add(toasterBody);
+            panelToToastOn.add(toasterBody, 0);
             toasterBody.startToast(() -> {
                 panelToToastOn.remove(toasterBody);
                 panelToToastOn.repaint();
