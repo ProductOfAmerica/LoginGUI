@@ -1,4 +1,4 @@
-# Swing Login GUI
+# Swing Login GUI With Toast
 
 I created this project, because I was sick of how Swing GUIs typically look. In my opinion, this is a much more user-friendly UI than anything I've seen online. Enjoy!
 
