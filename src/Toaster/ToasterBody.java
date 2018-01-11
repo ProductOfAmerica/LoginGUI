@@ -6,16 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 
 class ToasterBody extends JPanel {
-    private final JPanel panelToToastOn;
+    private JPanel panelToToastOn;
     private final String message;
-    private final int yPos;
-    private final int toastWidth;
-
+    private int yPos;
     private final FontMetrics metrics;
     private final Color c = new Color(181, 59, 86);
     private final int stringWidth;
     private static final int TOAST_PADDING = 15;
     private int heightOfToast;
+    private volatile boolean stopDisplaying;
+    private final int toastWidth;
 
     public ToasterBody(JPanel panelToToastOn, String message, int yPos) {
         this.panelToToastOn = panelToToastOn;
@@ -25,23 +25,11 @@ class ToasterBody extends JPanel {
         metrics = getFontMetrics(UIUtils.FONT_GENERAL_UI);
         stringWidth = metrics.stringWidth(this.message);
 
-        this.toastWidth = this.stringWidth + (TOAST_PADDING * 2);
-        this.heightOfToast = metrics.getHeight() + TOAST_PADDING;
-    }
-
-    public int getHeightOfToast() {
-        return heightOfToast;
-    }
-
-    public void startToast(Runnable after) {
+        toastWidth = this.stringWidth + (TOAST_PADDING * 2);
+        heightOfToast = metrics.getHeight() + TOAST_PADDING;
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setOpaque(false);
         setBounds((panelToToastOn.getWidth() - toastWidth) / 2, yPos, toastWidth, heightOfToast);
-        try {
-            Thread.sleep(2000);
-            after.run();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -60,5 +48,26 @@ class ToasterBody extends JPanel {
         g2.setFont(UIUtils.FONT_GENERAL_UI);
         g2.setColor(Color.white);
         g2.drawString(message, stringPosX, stringPosY);
+    }
+
+    public int getHeightOfToast() {
+        return heightOfToast;
+    }
+
+    public boolean getStopDisplaying() {
+        return stopDisplaying;
+    }
+
+    public void setStopDisplaying(boolean hasStoppedDisplaying) {
+        this.stopDisplaying = hasStoppedDisplaying;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+        setBounds((panelToToastOn.getWidth() - toastWidth) / 2, yPos, toastWidth, heightOfToast);
+    }
+
+    public int getyPos() {
+        return yPos;
     }
 }
