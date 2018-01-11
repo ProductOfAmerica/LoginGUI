@@ -16,6 +16,8 @@ class ToasterBody extends JPanel {
     private int heightOfToast;
     private volatile boolean stopDisplaying;
     private final int toastWidth;
+    private int stringPosX;
+    private int stringPosY;
 
     public ToasterBody(JPanel panelToToastOn, String message, int yPos) {
         this.panelToToastOn = panelToToastOn;
@@ -29,16 +31,29 @@ class ToasterBody extends JPanel {
         heightOfToast = metrics.getHeight() + TOAST_PADDING;
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setOpaque(false);
-        setBounds((panelToToastOn.getWidth() - toastWidth) / 2, yPos, toastWidth, heightOfToast);
+        setBounds((panelToToastOn.getWidth() - toastWidth) / 2, (int) -(Math.round(heightOfToast / 10.0) * 10), toastWidth, heightOfToast);
+
+        stringPosX = (getWidth() - stringWidth) / 2;
+        stringPosY = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+
+        new Thread(() -> {
+            while (getBounds().y < yPos) {
+                int i1 = (yPos - getBounds().y) / 10;
+                i1 = i1 <= 0 ? 1 : i1;
+                setBounds((panelToToastOn.getWidth() - toastWidth) / 2, getBounds().y + i1, toastWidth, heightOfToast);
+                repaint();
+                try {
+                    Thread.sleep(10);
+                } catch (Exception ignored) {
+                }
+            }
+        }).start();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = UIUtils.get2dGraphics(g);
         super.paintComponent(g2);
-
-        int stringPosX = (getWidth() - stringWidth) / 2;
-        int stringPosY = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
 
         //Background
         g2.setColor(c);
