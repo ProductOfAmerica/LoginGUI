@@ -4,12 +4,13 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Toaster {
     private static final int STARTING_Y_POS = 15;
     private static final int SPACER_DISTANCE = 15;
     private static final ArrayList<ToasterBody> toasterBodies = new ArrayList<>();
-    private static int CURRENT_Y_OFFSET = 0;
+    private final static AtomicInteger CURRENT_Y_OFFSET = new AtomicInteger();
     private final JPanel panelToToastOn;
 
     public Toaster(JPanel panelToToastOn) {
@@ -21,10 +22,10 @@ public class Toaster {
 
         if (toasterBodies.isEmpty()) {
             toasterBody = new ToasterBody(panelToToastOn, message, STARTING_Y_POS);
-            CURRENT_Y_OFFSET = STARTING_Y_POS + toasterBody.getHeightOfToast();
+            CURRENT_Y_OFFSET.set(STARTING_Y_POS + toasterBody.getHeightOfToast());
         } else {
-            toasterBody = new ToasterBody(panelToToastOn, message, CURRENT_Y_OFFSET + SPACER_DISTANCE);
-            CURRENT_Y_OFFSET = CURRENT_Y_OFFSET + SPACER_DISTANCE + toasterBody.getHeightOfToast();
+            toasterBody = new ToasterBody(panelToToastOn, message, CURRENT_Y_OFFSET.get() + SPACER_DISTANCE);
+            CURRENT_Y_OFFSET.addAndGet(SPACER_DISTANCE + toasterBody.getHeightOfToast());
         }
 
         toasterBodies.add(toasterBody);
@@ -55,15 +56,13 @@ public class Toaster {
 
             toasterBodies.forEach(toasterBody1 -> {
                 if (toasterBodies.indexOf(toasterBody1) >= toasterBodies.indexOf(toasterBody)) {
-                    toasterBody1.setyPos(toasterBody1.getyPos()
-                            - toasterBody.getHeightOfToast() - SPACER_DISTANCE);
-                    toasterBody1.repaint();
+                    toasterBody1.setyPos(toasterBody1.getyPos() - toasterBody.getHeightOfToast() - SPACER_DISTANCE);
                 }
             });
 
             toasterBodies.remove(toasterBody);
 
-            CURRENT_Y_OFFSET = CURRENT_Y_OFFSET - SPACER_DISTANCE - toasterBody.getHeightOfToast();
+            CURRENT_Y_OFFSET.set(CURRENT_Y_OFFSET.get() - SPACER_DISTANCE - toasterBody.getHeightOfToast());
 
             panelToToastOn.remove(toasterBody);
             panelToToastOn.repaint();

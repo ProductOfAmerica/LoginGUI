@@ -43,7 +43,7 @@ class ToasterBody extends JPanel {
                 setBounds((panelToToastOn.getWidth() - toastWidth) / 2, getBounds().y + i1, toastWidth, heightOfToast);
                 repaint();
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(5);
                 } catch (Exception ignored) {
                 }
             }
@@ -69,17 +69,30 @@ class ToasterBody extends JPanel {
         return heightOfToast;
     }
 
-    public boolean getStopDisplaying() {
+    public synchronized boolean getStopDisplaying() {
         return stopDisplaying;
     }
 
-    public void setStopDisplaying(boolean hasStoppedDisplaying) {
+    public synchronized void setStopDisplaying(boolean hasStoppedDisplaying) {
         this.stopDisplaying = hasStoppedDisplaying;
     }
 
     public void setyPos(int yPos) {
         this.yPos = yPos;
-        setBounds((panelToToastOn.getWidth() - toastWidth) / 2, yPos, toastWidth, heightOfToast);
+//        setBounds((panelToToastOn.getWidth() - toastWidth) / 2, yPos, toastWidth, heightOfToast);
+
+        new Thread(() -> {
+            while (getBounds().y > yPos) {
+                int i1 = Math.abs((yPos - getBounds().y) / 10);
+                i1 = i1 <= 0 ? 1 : i1;
+                setBounds((panelToToastOn.getWidth() - toastWidth) / 2, getBounds().y - i1, toastWidth, heightOfToast);
+                repaint();
+                try {
+                    Thread.sleep(5);
+                } catch (Exception ignored) {
+                }
+            }
+        }).start();
     }
 
     public int getyPos() {
