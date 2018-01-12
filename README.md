@@ -9,4 +9,4 @@ I created this project, because I was sick of how Swing GUIs typically look. In 
 ![Screenshot](.github/screenshot.png)
 
 **Event Handler Video:**
-![Test Video](.github/example.gif)
+![Test Video](.github/example2.gif)
