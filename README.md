@@ -7,7 +7,7 @@ I created this project, because I was sick of how Swing GUIs typically look. In 
 ## Examples:
 **Screenshot:**
 
-![Screenshot](.github/screenshot.png)
+![Screenshot](.github/updated_screenshot.png)
 
 **Event Handler Video:**
 
