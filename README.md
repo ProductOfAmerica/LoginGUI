@@ -13,6 +13,16 @@ I created this project, because I was sick of how Swing GUIs typically look. In 
 
 ![Test Video](.github/example2.gif)
 
+## Code Examples:
+```java
+private final Toaster toaster = new Toaster(mainJPanel);
+
+toaster.error("An error event!!", "Or multiple at once");
+toaster.warn("A warning event!", "Or multiple at once");
+toaster.info("An informational event.", "Or multiple at once");
+toaster.success("A successful event!", "Or multiple at once");
+```
+
 ## Setup Instructions:
 1. `git clone https://github.com/ProductOfAmerica/LoginGUI.git`
 2. Change the `lumo_placeholder.png` under `/resources` to your own logo.
