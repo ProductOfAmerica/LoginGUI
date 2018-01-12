@@ -211,17 +211,17 @@ public class LoginUI extends JFrame {
 
     private void addForgotPasswordButton(JPanel panel1) {
         panel1.add(new HyperlinkText(UIUtils.BUTTON_TEXT_FORGOT_PASS, 423, 300, () -> {
-            toaster.toast("Forgot password event");
+            toaster.error("Forgot password event");
         }));
     }
 
     private void addRegisterButton(JPanel panel1) {
         panel1.add(new HyperlinkText(UIUtils.BUTTON_TEXT_REGISTER, 631, 300, () -> {
-            toaster.toast("Register event");
+            toaster.success("Register event");
         }));
     }
 
     private void loginEventHandler() {
-        toaster.toast("Login event");
+        toaster.warn("Login event");
     }
 }

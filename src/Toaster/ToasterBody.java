@@ -6,28 +6,24 @@ import javax.swing.*;
 import java.awt.*;
 
 class ToasterBody extends JPanel {
-    private JPanel panelToToastOn;
-    private final String message;
-    private int yPos;
-    private final FontMetrics metrics;
-    private final Color c = new Color(181, 59, 86);
-    private final int stringWidth;
     private static final int TOAST_PADDING = 15;
-    private int heightOfToast;
-    private volatile boolean stopDisplaying;
     private final int toastWidth;
-    private int stringPosX;
-    private int stringPosY;
+    private final String message;
+    private final Color c;
+    private volatile boolean stopDisplaying;
+    private int heightOfToast, stringPosX, stringPosY, yPos;
+    private JPanel panelToToastOn;
 
-    public ToasterBody(JPanel panelToToastOn, String message, int yPos) {
+    public ToasterBody(JPanel panelToToastOn, String message, Color bgColor, int yPos) {
         this.panelToToastOn = panelToToastOn;
         this.message = message;
         this.yPos = yPos;
+        this.c = bgColor;
 
-        metrics = getFontMetrics(UIUtils.FONT_GENERAL_UI);
-        stringWidth = metrics.stringWidth(this.message);
+        FontMetrics metrics = getFontMetrics(UIUtils.FONT_GENERAL_UI);
+        int stringWidth = metrics.stringWidth(this.message);
 
-        toastWidth = this.stringWidth + (TOAST_PADDING * 2);
+        toastWidth = stringWidth + (TOAST_PADDING * 2);
         heightOfToast = metrics.getHeight() + TOAST_PADDING;
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setOpaque(false);

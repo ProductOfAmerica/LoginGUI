@@ -1,6 +1,7 @@
 package Toaster;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -17,14 +18,38 @@ public class Toaster {
         this.panelToToastOn = panelToToastOn;
     }
 
-    public void toast(String message) {
+    public void error(String... messages) {
+        for (String s : messages) {
+            toast(s, new Color(181, 59, 86));
+        }
+    }
+
+    public void success(String... messages) {
+        for (String s : messages) {
+            toast(s, new Color(33, 181, 83));
+        }
+    }
+
+    public void info(String... messages) {
+        for (String s : messages) {
+            toast(s, new Color(13, 116, 181));
+        }
+    }
+
+    public void warn(String... messages) {
+        for (String s : messages) {
+            toast(s, new Color(181, 147, 10));
+        }
+    }
+
+    private void toast(String message, Color bgColor) {
         ToasterBody toasterBody;
 
         if (toasterBodies.isEmpty()) {
-            toasterBody = new ToasterBody(panelToToastOn, message, STARTING_Y_POS);
+            toasterBody = new ToasterBody(panelToToastOn, message, bgColor, STARTING_Y_POS);
             CURRENT_Y_OFFSET.set(STARTING_Y_POS + toasterBody.getHeightOfToast());
         } else {
-            toasterBody = new ToasterBody(panelToToastOn, message, CURRENT_Y_OFFSET.get() + SPACER_DISTANCE);
+            toasterBody = new ToasterBody(panelToToastOn, message, bgColor, CURRENT_Y_OFFSET.get() + SPACER_DISTANCE);
             CURRENT_Y_OFFSET.addAndGet(SPACER_DISTANCE + toasterBody.getHeightOfToast());
         }
 
